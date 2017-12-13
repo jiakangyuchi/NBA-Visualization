@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>NBA Stats</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">		
+		<style>
+			html, body {
+				height: 100%;
+			}
+
+			body {
+				background-color: #000000;
+				margin: 0;
+				font-family: Helvetica, sans-serif;;
+				overflow: hidden;
+				font-weight: 100;
+			}
+
+			a {
+				color: #ffffff;
+			}
+			h2{
+				color:#d0d3d4;
+				position:relative;
+				left:-600px;
+			}
+			div#stats{
+				position: absolute;
+				top: 60px;
+				left:30px;		
+			}
+
+			div.progress {
+				width: 280px;
+				height:40px;
+				text-align: center;
+				margin-top:20px;
+				background-color: #000000;
+			}			
+/*			div.progress-bar{
+				color:#000000;
+			}*/
+			div.progress-bar{
+				position:relative;
+				left:-600px;
+				letter-spacing: 2px;
+				font-size: 18px;
+				text-align: left;
+				display:block;
+				line-height: 40px;
+				padding-left: 20px;
+			}
+			#menu {
+				position: absolute;
+				bottom: 20px;
+				width: 100%;
+				text-align: center;
+			}
+
+			.element {
+				width: 120px;
+				height: 160px;
+				border: 1px solid rgba(255,255,255,0.25);
+				text-align: center;
+				cursor: default;
+			}
+			div.detail {
+				width: 150px;
+				height: 160px;
+				text-align: left;
+				cursor: default;
+				position: absolute;
+				left: 0;
+				color:rgba(255,255,255,0.75);
+				opacity: 0;
+			}
+			div.intro{
+				margin-top: 7px;
+			}
+
+			.element:hover {
+				box-shadow: 0px 0px 12px rgba(0,255,255,0.75);
+				border: 1px solid rgba(127,255,255,0.75);
+			}
+			.element .image{
+				zoom:0.45;
+				margin-top: 10px;
+			}
+			.element .name {
+				margin-top: 10px;
+				font-size: 15px;
+				font-weight: bold;
+				color: rgba(255,255,255,0.75);
+				text-shadow: 0 0 10px rgba(0,255,255,0.95);
+			}
+
+			.element .team {
+				font-size: 14px;
+				color: rgba(255,255,255,0.75);
+			}
+
+			.element .region {
+				margin-top: -5px;
+				font-size: 14px;
+				color: rgba(255,255,255,0.75);
+			}
+
+			button {
+				color: rgba(127,255,255,0.75);
+				background: transparent;
+				outline: 1px solid rgba(127,255,255,0.75);
+				border: 0px;
+				padding: 5px 10px;
+				cursor: pointer;
+			}
+			button:hover {
+				background-color: rgba(255,255,255,0.5);
+			}
+			button:active {
+				color: #000000;
+				background-color: rgba(0,255,255,0.75);
+			}
+		</style>
+	</head>
+	<body id="d">
+		<div id="intro"></div>
+	<div id="stats">
+		<h2>STATS</h2>
+		<div class="progress">
+			<div id="east_pts" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%">75%
+			</div>
+		</div>
+		<div class="progress">
+			<div id="west_pts" class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%">75%
+			</div>
+		</div>		
+		<div class="progress">
+			<div id="east_reb" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%">75%
+			</div>
+		</div>
+		<div class="progress">
+			<div id="west_reb" class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%">75%
+			</div>
+		</div>		
+		<div class="progress">
+			<div id="east_ast" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%">75%
+			</div>
+		</div>	
+		<div class="progress">
+			<div id="west_ast" class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%">75%
+			</div>
+		</div>			
+		<div class="progress">
+			<div id="east_height" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%">75%
+			</div>
+		</div>	
+		<div class="progress">
+			<div id="west_height" class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%">75%
+			</div>
+		</div>			
+		<div class="progress">
+			<div id="east_weight" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%">75%
+			</div>
+		</div>						
+		<div class="progress">
+			<div id="west_weight" class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%">75%
+			</div>
+		</div>										
+	</div>
+		<div id="container"></div>		
+		<div id="menu">
+			<button id="table">TABLE</button>
+			<button id="grid" style="margin-right:50px;">GRID</button>
+			<button id="pts">PTS</button>
+			<button id="reb">REB</button>
+			<button id="ast">AST</button>	
+			<button id="height">HEIGHT</button>
+			<button id="weight" style = "margin-right: 50px;">WEIGHT</button>	
+			<button id="clear">CLEAR</button>								
+		</div>		
+		<script src="js/jquery-1.9.1.min.js"></script>
+		<script src="js/easing.js"></script>
+		<script src="js/bootstrap.bundle.min.js"></script>				
+		<script src="js/three.js"></script>
+		<script src="js/tween.min.js"></script>
+		<script src="js/TrackballControls.js"></script>
+		<script src="js/CSS3DRenderer.js"></script>
+		<script>
+						
+/*			var array = [
+				["Dwyane Wade","cavaliers","east",11.5,3.7,3.9,193,99],
+				["D Green","warriors","west",9,6.8,4.3,201,104],
+				["Manu Ginobili","spurs","west",13.5,3.6,3.8,198,92],
+				["Joakim Noah","knicks","east",9,9.3,2.9,211,104],
+				["Jimmy Butler","wolves","west",15.7,4.8,3.2,203,107],
+				["Paul Millsap","nuggets","west",14.2,7.4,2.3,203,111],
+				["Rajon Rondo","pelicans","west",10.6,4.9,8.5,185,84],
+				["Kyle Lowry","raptors","east",14.3,4.1,5.8,183,92],
+				["Joe Johnson","jazz","west",16.3,4,4,201,108],
+				["David Lee","spurs","west",13.5,8.8,2.2,206,111],
+				["Tony Parker","spurs","west",16.2,2.8,5.8,188,83],
+				["Klay Thompson","warriors","west",19.2,3.4,2.3,201,97],
+				["Kawhi Leonard","spurs","west",16.4,6.2,2.3,201,104],
+				["Al Horford","celitics","east",14.3,8.7,3.1,208,111],
+				["Marc Gasol","grizzlies","west",15.1,7.7,3.3,216,115],
+				["DeMar DeRozan","raptors","east",19.4,4.1,2.9,201,100],
+				["Antetokounmpo","bucks","east",15.9,7.1,3.6,211,100],
+				["Isaiah Thomas","cavaliers","east",19.1,2.6,5.2,175,83],
+				["Deron Williams","cavaliers","east",16.3,3.1,8.1,190,90],
+				["Paul George","thunder","west",18.2,6.3,3.2,206,99],
+				["A Stoudemire","heat","east",18.9,7.8,1.2,208,111],
+				["Paul Pierce","clippers","west",19.7,5.6,3.5,201,106],
+				["Derrick Rose","cavaliers","east",19.4,3.7,5.9,190,86],
+				["L Aldridge","spurs","west",19.2,8.3,1.9,211,117],
+				["Chris Bosh","heat","east",19.2,8.5,2,211,106],
+				["Yao Ming","rockets","west",19,9.2,1.6,229,140],
+				["Pau Gasol","spurs","west",17.7,9.4,3.2,213,113],
+				["Kyrie Irving","celitics","east",21.8,3.4,5.5,190,87],
+				["Kevin Garnett","wolves","west",17.8,10,3.7,211,108],
+				["Dwight Howard","hornets","east",17.4,12.7,1.5,211,120],
+				["Dirk Nowitzki","mavericks","west",21.5,7.8,2.5,213,111],
+				["Kevin Love","cavaliers","east",18.4,11.4,2.4,208,113],
+				["John Wall","wizards","east",18.9,4.4,9.2,193,88],
+				["Chris Paul","rockets","west",18.7,4.4,9.9,183,79],
+				["James Harden","rockets","west",22.5,5,5.9,196,99],
+				["Stephen Curry","warriors","west",22.9,4.4,6.8,190,86],
+				["C Anthony","thunder","west",24.6,6.6,3.1,203,108],
+				["Anthony Davis","pelicans","west",22.5,10.2,1.8,208,114],
+				["Kobe Bryant","lakers","west",25,5.2,4.7,198,96],
+				["Blake Griffin","clippers","west",21.6,9.3,4.2,208,113],
+				["D Cousins","pelicans","west",21.4,10.9,3.1,211,122],
+				["Allen Iverson","76ers","east",26.7,3.7,6.2,183,74],
+				["R Westbrook","thunder","west",22.7,6.3,8,190,90],
+				["Kevin Durant","warriors","west",27.2,7.1,3.8,206,108],
+				["LeBron James","cavaliers","east",27.2,7.3,7.1,203,113]].reverse();*/
+
+			//sort by pts and make a map to save the order.
+function input(array){
+
+			array.reverse();
+			
+			var pts = JSON.parse( JSON.stringify( array ) );
+
+			var pts_i = {};
+
+			pts.forEach(function(element, index, array){
+				element[8] = index;
+			})
+
+			pts.sort(function(a, b){ return b[3] - a[3] });
+
+			pts.forEach(function(element, index, array){
+				pts_i[element[8]] = index;
+			})
+
+			//sort by reb and make a map to save the order.
+
+			var reb = JSON.parse( JSON.stringify( array ) );
+
+			var reb_i = {};
+
+			reb.forEach(function(element, index, array){
+				element[8] = index;
+			})
+
+			reb.sort(function(a, b){ return b[4] - a[4] });
+
+			reb.forEach(function(element, index, array){
+				reb_i[element[8]] = index;
+			})
+
+			//sort by ast and make a map to save the order.
+
+			var ast = JSON.parse( JSON.stringify( array ) );
+
+			var ast_i = {};
+
+			ast.forEach(function(element, index, array){
+				element[8] = index;
+			})
+
+			ast.sort(function(a, b){ return b[5] - a[5] });
+
+			ast.forEach(function(element, index, array){
+				ast_i[element[8]] = index;
+			})
+
+			//sort by height and make a map to save the order.
+
+			var height = JSON.parse( JSON.stringify( array ) );
+
+			var height_i = {};
+
+			height.forEach(function(element, index, array){
+				element[8] = index;
+			})
+
+			height.sort(function(a, b){ return b[6] - a[6] });
+
+			height.forEach(function(element, index, array){
+				height_i[element[8]] = index;
+			})
+
+			//sort by ast and make a map to save the order.
+
+			var weight = JSON.parse( JSON.stringify( array ) );
+
+			var weight_i = {};
+
+			weight.forEach(function(element, index, array){
+				element[8] = index;
+			})
+
+			weight.sort(function(a, b){ return b[7] - a[7] });
+
+			weight.forEach(function(element, index, array){
+				weight_i[element[8]] = index;
+			})
+
+			var camera, scene, renderer, controls;
+
+			var objects = [];
+
+			var current = [];//current position of elements
+
+			var grid = [];
+
+			var table = [];
+
+			var table_pts = [];
+
+			var table_reb = [];
+
+			var table_ast = [];
+
+			var table_height = [];
+
+			var table_weight = [];
+
+			var west_count = 0;
+
+			var east_count = 0;
+
+			var east_sum_sum = 0;
+
+			var west_sum_sum = 0;			
+
+			var east_pts_sum = 0;
+
+			var west_pts_sum = 0;			
+
+			var east_reb_sum = 0;
+
+			var west_reb_sum = 0;			
+
+			var east_ast_sum = 0;
+
+			var west_ast_sum = 0;
+
+			var east_height_sum = 0;
+
+			var west_height_sum = 0;
+
+			var east_weight_sum = 0;
+
+			var west_weight_sum = 0
+
+			init();
+
+			animate();
+
+			render();
+
+			function init(){
+
+				camera = new THREE.PerspectiveCamera(40, window.innerWidth/window.innerHeight, 1, 10000);
+				camera.position.set(0, 0, 3000);
+				scene = new THREE.Scene();
+
+				for(let i = 0; i < array.length; i++){
+
+					var element = document.createElement( 'div' );
+					var container = document.getElementById('container');
+					element.className = "element";
+
+					if(array[i][2] === "west"){
+						element.style.backgroundColor = 'rgba(237,23,76,' + ( Math.random() * 0.5 + 0.25 ) + ')';	
+						element.style.boxShadow	= '0px 0px 12px rgba(255,0,0,0.75)';
+						//count player numbers and amount of each performance						
+						west_count ++;
+						west_pts_sum += array[i][3];	
+						west_reb_sum += array[i][4];
+						west_ast_sum += array[i][5];
+						west_height_sum += array[i][6];		
+						west_weight_sum += array[i][7];									
+					}
+					if(array[i][2] === "east"){
+						element.style.backgroundColor = 'rgba(0,125,197,' + ( Math.random() * 0.5 + 0.25 ) + ')';	
+						element.style.boxShadow	= '0px 0px 12px rgba(0,0,255,0.75)';
+						east_count ++;
+						east_pts_sum += array[i][3];	
+						east_reb_sum += array[i][4];
+						east_ast_sum += array[i][5];									
+						east_height_sum += array[i][6];		
+						east_weight_sum += array[i][7];										
+					}										
+					element.addEventListener("click", function(){
+						focus(i)});
+
+					var detail = document.createElement('div');
+					detail.className = "detail";
+					detail.id = i;
+					element.appendChild(detail);
+
+
+					var detail_point = document.createElement('div');
+					detail_point.className = "intro";
+					detail_point.innerHTML = "POINTS:" + " " + array[i][3];
+					detail.appendChild(detail_point);
+
+					var detail_rebound = document.createElement('div');
+					detail_rebound.className = "intro";
+					detail_rebound.innerHTML = "REBOUNDS:" + " " + array[i][4];
+					detail.appendChild(detail_rebound);
+
+					var detail_assist = document.createElement('div');
+					detail_assist.className = "intro";
+					detail_assist.innerHTML = "ASSISTS:" + " " + array[i][5];
+					detail.appendChild(detail_assist);
+
+					var detail_height = document.createElement('div');
+					detail_height.className = "intro";
+					detail_height.innerHTML = "HEIGHT:" + " " + array[i][6] + " " + "cm";
+					detail.appendChild(detail_height);
+
+					var detail_weight = document.createElement('div');
+					detail_weight.className = "intro";
+					detail_weight.innerHTML = "WEIGHT:" + " " + array[i][7] + " " + "kg";
+					detail.appendChild(detail_weight);
+
+					var names = document.createElement('div');
+					names.className = "name";
+					names.innerHTML = array[i][0];
+					element.appendChild(names);
+
+					var image = document.createElement('img');
+					image.className = "image";
+					image.src = "assets/final/" + array[i][0] + ".png"; 
+					element.appendChild(image);
+
+					var team = document.createElement('div');
+					team.className = "team";
+					team.innerHTML = array[i][1];
+					element.appendChild(team);
+
+					var region = document.createElement('div');
+					region.className = "region";
+					region.innerHTML = array[i][2];
+					element.appendChild(region);
+
+					var object = new THREE.CSS3DObject(element);
+					object.position.x = Math.random() * 4000 - 2000;
+					object.position.y = Math.random() * 4000 - 2000;
+					object.position.z = Math.random() * 4000 - 2000;
+					scene.add(object);
+
+					objects.push(object);
+				}
+
+				east_pts_sum = (east_pts_sum/east_count).toFixed(2);
+				east_reb_sum = (east_reb_sum/east_count).toFixed(2);
+				east_ast_sum = (east_ast_sum/east_count).toFixed(2);
+				east_height_sum = (east_height_sum/east_count).toFixed(2);		
+				east_weight_sum = (east_weight_sum/east_count).toFixed(2);							
+
+				west_pts_sum = (west_pts_sum/west_count).toFixed(2);
+				west_reb_sum = (west_reb_sum/west_count).toFixed(2);
+				west_ast_sum = (west_ast_sum/west_count).toFixed(2);
+				west_height_sum = (west_height_sum/west_count).toFixed(2);		
+				west_weight_sum = (west_weight_sum/west_count).toFixed(2);																
+
+				//give progress the value
+
+				east_pts.innerHTML = "PTS:" + " " + east_pts_sum;
+				east_pts.style.width = east_pts_sum/west_pts_sum * 80 + "%";
+				east_reb.innerHTML = "REB:" + " " + east_reb_sum;
+				east_reb.style.width = east_reb_sum/west_reb_sum * 80 + "%";		
+				east_ast.innerHTML = "AST:" + " " + east_ast_sum;
+				east_ast.style.width = "100%";	
+				east_height.innerHTML = "HEIGHT:" + " " + east_height_sum + " " + "cm";
+				east_height.style.width = east_height_sum/west_height_sum * 80 + "%";	
+				east_weight.innerHTML = "WEIGHT:" + " " + east_weight_sum + " " + "kg";
+				east_weight.style.width = east_weight_sum/west_weight_sum * 80 + "%";													
+
+				west_pts.innerHTML = "PTS:" + " " + west_pts_sum;
+				west_pts.style.width = "100%";
+				west_reb.innerHTML = "REB:" + " " + west_reb_sum;
+				west_reb.style.width = "100%";		
+				west_ast.innerHTML = "AST:" + " " + west_ast_sum;
+				west_ast.style.width = west_ast_sum/east_ast_sum * 80 + "%";	
+				west_height.innerHTML = "HEIGHT:" + " " + west_height_sum + " " + "cm";
+				west_height.style.width = "100%";	
+				west_weight.innerHTML = "WEIGHT:" + " " + west_weight_sum + " " + "kg";
+				west_weight.style.width = "100%";						
+
+				//grid
+
+				for(var i = 0; i < objects.length; i++){
+
+					var object = new THREE.Object3D();
+
+					object.position.x = ( ( (44 - i) % 3 ) * 400 ) - 400;
+					object.position.y = ( - ( Math.floor( (44 - i) / 3 ) % 3 ) * 400 ) + 400;
+					object.position.z = ( Math.floor( (44 - i) / 9 ) ) * 1000 - 2200;
+					object.rotation = {x:90,y:90,z:90};
+
+					grid.push(object);
+
+				}
+
+				//table
+
+				for(var i = 0; i < objects.length; i++){
+
+					var object = new THREE.Object3D();
+					var new_i = String(i);
+					object.position.x = ( new_i[new_i.length - 1] * 140 ) - 620;
+					object.position.y = - ( Math.floor(i/10) * 180 ) + 390;
+					object.position.z = 1500;
+
+					table.push( object );
+
+				}
+
+				//pts
+
+				for(var i = 0; i < objects.length; i++){
+
+					var object = new THREE.Object3D();
+					var new_i = pts_i[i].toString();
+					object.position.x = ( new_i[new_i.length - 1] * 140 ) - 620;
+					object.position.y = - ( Math.floor(new_i/10) * 180 ) + 390;
+					object.position.z = 1500;
+
+					table_pts.push( object );
+
+				}
+
+				//reb
+
+				for(var i = 0; i < objects.length; i++){
+
+					var object = new THREE.Object3D();
+					var new_i = reb_i[i].toString();
+					object.position.x = ( new_i[new_i.length - 1] * 140 ) - 620;
+					object.position.y = - ( Math.floor(new_i/10) * 180 ) + 390;
+					object.position.z = 1500;
+
+					table_reb.push( object );
+
+				}
+
+				//ast
+
+				for(var i = 0; i < objects.length; i++){
+
+					var object = new THREE.Object3D();
+					var new_i = ast_i[i].toString();
+					object.position.x = ( new_i[new_i.length - 1] * 140 ) - 620;
+					object.position.y = - ( Math.floor(new_i/10) * 180 ) + 390;
+					object.position.z = 1500;
+
+					table_ast.push( object );
+
+				}
+
+				//height
+
+				for(var i = 0; i < objects.length; i++){
+
+					var object = new THREE.Object3D();
+					var new_i = height_i[i].toString();
+					object.position.x = ( new_i[new_i.length - 1] * 140 ) - 620;
+					object.position.y = - ( Math.floor(new_i/10) * 180 ) + 390;
+					object.position.z = 1500;
+
+					table_height.push( object );
+
+				}
+
+				//weight
+
+				for(var i = 0; i < objects.length; i++){
+
+					var object = new THREE.Object3D();
+					var new_i = weight_i[i].toString();
+					object.position.x = ( new_i[new_i.length - 1] * 140 ) - 620;
+					object.position.y = - ( Math.floor(new_i/10) * 180 ) + 390;
+					object.position.z = 1500;
+
+					table_weight.push( object );
+
+				}
+				current = grid;
+
+				renderer = new THREE.CSS3DRenderer();
+				renderer.setSize(window.innerWidth, window.innerHeight);
+				renderer.domElement.style.position = "absolute";
+				container.appendChild(renderer.domElement);
+
+				controls = new THREE.TrackballControls(camera, renderer.domElement);
+				controls.rotateSpeed = 0.5;
+				controls.minDistance = 100;
+				controls.maxDistance = 10000;
+				controls.addEventListener('change', render);
+
+				window.addEventListener('resize', onWindowResize);
+
+				transform(table, 2000);
+
+			}
+
+			var button_table = document.getElementById('table');
+			button_table.addEventListener('click', function(){
+				transform(table, 2000);
+			})
+
+			var button_grid = document.getElementById('grid');
+			button_grid.addEventListener('click', function(){
+				transform(grid, 2000);
+			})
+
+			var button_pts = document.getElementById('pts');
+			button_pts.addEventListener('click', function(){
+				transform(table_pts, 2000, east_pts, west_pts);
+			})
+
+			var button_reb = document.getElementById('reb');
+			button_reb.addEventListener('click', function(){
+				transform(table_reb, 2000, east_reb, west_reb);
+			})
+
+			var button_ast = document.getElementById('ast');
+			button_ast.addEventListener('click', function(){
+				transform(table_ast, 2000, east_ast, west_ast);
+			})
+
+			var button_height = document.getElementById('height');
+			button_height.addEventListener('click', function(){
+				transform(table_height, 2000, east_height, west_height);
+			})
+
+			var button_weight = document.getElementById('weight');
+			button_weight.addEventListener('click', function(){
+				transform(table_weight, 2000, east_weight, west_weight);
+			})
+
+			var button_clear = document.getElementById('clear');
+			button_clear.addEventListener('click', function(){
+				$(stats).delay(500).animate({opacity:'0'}, 'slow', 'swing');
+			})
+
+			function transform(shape, duration, east, west){
+
+				if(east){ 
+					$("h2").delay(500).animate({left:0, opacity:'1'}, 'slow', 'swing');					
+					$(east).delay(500).animate({left:0, opacity:'1'}, 'slow', 'swing');	 
+					$(stats).delay(500).animate({opacity:'1'}, 'slow', 'swing');					
+				}
+				if(west){ $(west).delay(800).animate({left:0, opacity:'1'}, 'slow', 'swing') }				
+				TWEEN.removeAll();
+
+				for(var i = 0; i < objects.length; i++){
+
+					var object = objects[i];
+					var shapes = shape[i];
+
+					new TWEEN.Tween(object.position)
+						.to({x : shapes.position.x, y : shapes.position.y, z : shapes.position.z}, Math.random() * duration + duration)
+						.easing(TWEEN.Easing.Exponential.InOut)
+						.start();
+					new TWEEN.Tween( object.rotation )
+						.to( { x: shapes.rotation.x + 6.3, y: shapes.rotation.y + 6.3, z: shapes.rotation.z }, Math.random() * duration + duration )
+						.easing( TWEEN.Easing.Exponential.InOut )
+						.start();						
+				}
+
+				new TWEEN.Tween()
+					.to({}, duration * 2)
+					.onUpdate(render)
+					.start();
+				$(".detail").animate({left:"0", opacity:'0'}, 'fast', 'swing'); 						
+			}
+
+			function focus(i){			
+
+				TWEEN.removeAll();
+				new TWEEN.Tween(camera.position)
+					.to({x: 0, y: 0, z: 3000}, Math.random() * 1000 + 1000)
+					.easing(TWEEN.Easing.Exponential.InOut)
+					.start()
+
+				for(var j = 0; j < objects.length; j++){
+
+					var object = objects[j];
+					var shapes = grid[j];
+
+					new TWEEN.Tween(object.position)
+						.to({x : shapes.position.x - current[i].position.x, y : shapes.position.y - current[i].position.y, z : shapes.position.z + 2500 - current[i].position.z}, Math.random() * 1000 + 1000)
+						.easing(TWEEN.Easing.Exponential.InOut)
+						.start();												
+				}
+
+				new TWEEN.Tween()
+					.to({}, 1000 * 2)
+					.onUpdate(render)
+					.start();
+				$(".detail").animate({left:"0", opacity:'0'}, 'fast', 'swing'); 	
+				$("#" + i).delay(500).animate({left:"150px", opacity:'1'}, 'slow', 'swing'); 
+			}
+
+			function animate() {
+
+				requestAnimationFrame( animate );
+
+				controls.update();				
+
+				TWEEN.update();
+
+			}
+
+			function render(){
+
+				camera.rotation.z = 0;
+
+				renderer.render(scene, camera);
+
+			}
+
+			function onWindowResize(){
+
+				camera.aspect = window.innerWidth/window.innerHeight;
+
+				camera.updateProjectionMatrix();
+
+				renderer.setSize(window.innerWidth, window.innerHeight);
+				render();
+
+			}
+		}
+			/*					if(array[i][1] === "lakers"){
+						element.style.backgroundColor = 'rgba(85,37,131,' + ( Math.random() * 0.5 + 0.25 ) + ')'; 						
+					}
+					if(array[i][1] === "wolves"){
+						element.style.backgroundColor = 'rgba(0,43,92,' + ( Math.random() * 0.5 + 0.25 ) + ')'; 						
+					}
+					if(array[i][1] === "cavaliers"){
+						element.style.backgroundColor = 'rgba(111,38,51,' + ( Math.random() * 0.5 + 0.25 ) + ')'; 						
+					}
+					if(array[i][1] === "mavericks"){
+						element.style.backgroundColor = 'rgba(0,125,197,,' + ( Math.random() * 0.5 + 0.25 ) + ')'; 						
+					}
+					if(array[i][1] === "heat"){
+						element.style.backgroundColor = 'rgba(152,0,46,' + ( Math.random() * 0.5 + 0.25 ) + ')'; 						
+					}	
+					if(array[i][1] === "76ers"){
+						element.style.backgroundColor = 'rgba(0,107,182,' + ( Math.random() * 0.5 + 0.25 ) + ')'; 						
+					}
+					if(array[i][1] === "thunder"){
+						element.style.backgroundColor = 'rgba(0,122,193,' + ( Math.random() * 0.5 + 0.25 ) + ')'; 						
+					}
+					if(array[i][1] === "clippers"){
+						element.style.backgroundColor = 'rgba(237,23,76,' + ( Math.random() * 0.5 + 0.25 ) + ')'; 						
+					}
+					if(array[i][1] === "rockets"){
+						element.style.backgroundColor = 'rgba(206,17,65,' + ( Math.random() * 0.5 + 0.25 ) + ')'; 						
+					}
+					if(array[i][1] === "warriors"){
+						element.style.backgroundColor = 'rgba(36,62,144,' + ( Math.random() * 0.5 + 0.25 ) + ')'; 						
+					}
+					if(array[i][1] === "heat"){
+					element.style.backgroundColor = 'rgba(0,127,127,' + ( Math.random() * 0.5 + 0.25 ) + ')';							
+					}	*/	
+		</script>
+
+	</body>
+</html>
